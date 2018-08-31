@@ -1,0 +1,6 @@
+main: net.sweetmimike.advancedfreeze.Main
+version: 1.0
+name: AdvancedFreeze
+commands:
+  freeze:
+    description: Freeze the players
