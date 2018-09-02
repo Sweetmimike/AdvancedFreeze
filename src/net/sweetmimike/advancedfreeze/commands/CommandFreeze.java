@@ -34,21 +34,21 @@ public class CommandFreeze implements CommandExecutor {
 				for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 					if(target.equalsIgnoreCase(p.getName())) {
 						if(FreezeListener.frozenPlayers.contains(p.getName()) || FreezeListener.frozenPlayersTime.containsKey(p.getName())) {
-							sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§c " + p.getName() + " is already frozen");
+							sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§e " + p.getName() + " §cis already frozen");
 							return true;
 						}
 						if(!(p.hasPermission("af.bypass"))) {
 							FreezeListener.frozenPlayers.add(p.getName());
 							onFreeze(p);
 							p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 10, 1);
-							sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§a " + p.getName() + " has been frozen");
+							sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§e " + p.getName() + " §chas been frozen");
 							p.sendMessage("§3§lAdvanced§b§lFreeze §7>>§a You have been frozen");
 						}
 						sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§c You can't freeze this player cause he has af.bypass");
 						return true;
 					}
 				}
-				sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§c " + target + " is offline");
+				sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§e " + target + " §cis offline");
 
 				return true;
 			} else {
@@ -72,14 +72,14 @@ public class CommandFreeze implements CommandExecutor {
 				for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 					if(target.equalsIgnoreCase(p.getName())) {
 						if(FreezeListener.frozenPlayers.contains(p.getName()) || FreezeListener.frozenPlayersTime.containsKey(p.getName())) {
-							sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§c " + p.getName() + " is already frozen");
+							sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§e " + p.getName() + " §cis already frozen");
 							return true;
 						}
 						if(!(p.hasPermission("af.bypass"))) {
 							FreezeListener.frozenPlayersTime.put(p.getName(), (System.currentTimeMillis() / 1000) + time);
 							onFreeze(p);
 							p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 10, 1);
-							sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§a " + p.getName() + " has been frozen for §2" + time + "§as");
+							sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§e " + p.getName() + " §ahas been frozen for §2" + time + "§as");
 							p.sendMessage("§3§lAdvanced§b§lFreeze §7>>§a You have been frozen for §2" + time + "§as");
 
 							//au bout de 20 * time, remove
@@ -99,7 +99,7 @@ public class CommandFreeze implements CommandExecutor {
 					}
 
 				}
-				sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§c " + target + " is offline");
+				sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§e " + target + " §cis offline");
 				return true;
 
 			} else {

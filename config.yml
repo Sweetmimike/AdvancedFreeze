@@ -2,3 +2,6 @@
 notification_message:
   frozen: "You have been frozen"
   unfrozen: "You have been unfrozen"
+  
+particle_enable: true
+sound_enable: true

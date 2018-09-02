@@ -34,7 +34,7 @@ public class FreezeListener implements Listener {
 			long timeLeft = frozenPlayersTime.get(p.getName()) - (System.currentTimeMillis() / 1000);
 			if(timeLeft > 0) {
 				e.setCancelled(true);
-				p.sendMessage("§3§lAdvanced§b§lFreeze§7 >>§c You are frozen, you can't move !");
+				p.sendMessage("§3§lAdvanced§b§lFreeze§7 >>§c You are frozen, §e" + timeLeft + "s §cuntil you can move");
 			} 
 		}
 		

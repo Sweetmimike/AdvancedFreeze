@@ -21,7 +21,7 @@ public class CommandUnFreeze implements CommandExecutor {
 				if(target.equalsIgnoreCase(p.getName())) {
 					if(FreezeListener.frozenPlayers.contains(p.getName())) {
 						FreezeListener.frozenPlayers.remove(target);
-						sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§a " + p.getName() + " is unfrozen");
+						sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§e " + p.getName() + " §ais unfrozen");
 						p.sendMessage("§3§lAdvanced§b§lFreeze §7>>§a You are unfrozen");
 						return true;
 					}
@@ -30,7 +30,7 @@ public class CommandUnFreeze implements CommandExecutor {
 					return true;
 				}
 			}
-			sender.sendMessage("§3Advanced§bFreeze §7>>§c " + target + " is offline");
+			sender.sendMessage("§3Advanced§bFreeze §7>>§e " + target + " §cis offline");
 
 			return true;
 			} else {
