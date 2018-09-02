@@ -25,15 +25,15 @@ public class CommandFreeze implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-		String target = args[0];
+		
 
 		if(args.length == 1) {
 
-
+			String target = args[0];
 
 			for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 				if(target.equalsIgnoreCase(p.getName())) {
-					if(FreezeListener.frozenPlayers.contains(p.getName())) {
+					if(FreezeListener.frozenPlayers.contains(p.getName()) || FreezeListener.frozenPlayersTime.containsKey(p.getName())) {
 						sender.sendMessage("AdvancedFreeze >> " + p.getName() + " is already frozen");
 						return true;
 					}
@@ -49,10 +49,49 @@ public class CommandFreeze implements CommandExecutor {
 
 			return true;
 		}
+		
+		if(args.length == 2) {
+			
+			String target = args[0];
+			long time = Long.parseLong(args[1]);
+			
+			for(Player p : Bukkit.getServer().getOnlinePlayers()) {
+				if(target.equalsIgnoreCase(p.getName())) {
+					if(FreezeListener.frozenPlayers.contains(p.getName()) || FreezeListener.frozenPlayersTime.containsKey(p.getName())) {
+						sender.sendMessage("AdvancedFreeze >> " + p.getName() + " is already frozen");
+						return true;
+					}
+					FreezeListener.frozenPlayersTime.put(p.getName(), (System.currentTimeMillis() / 1000) + time);
+					onFreeze(p);
+					p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 10, 1);
+					sender.sendMessage("AdvancedFreeze >> " + p.getName() + " has been frozen for " + time + "s");
+					p.sendMessage("AdvancedFreeze >> You have been frozen for " + time + "s");
+					
+					//au bout de 20 * time, remove
+					new BukkitRunnable() {
+						
+						@Override
+						public void run() {
+							FreezeListener.frozenPlayersTime.remove(p.getName());
+							p.sendMessage("AdvancedFreeze >> You have been unfrozen");
+							
+						}
+					}.runTaskLater(main, 20 * time);
+					
+					return true;
+				}
+			}
+			sender.sendMessage("AdvancedFreeze >> " + target + " is offline");
+
+			return true;
+			
+		}
 
 		return false;
 	}
+	
 
+	
 	public void onFreeze(Player p) {
 
 		World world = p.getWorld();
@@ -71,7 +110,7 @@ public class CommandFreeze implements CommandExecutor {
 				world.spawnParticle(Particle.SNOWBALL, loc, 2);
 				loc.subtract(x, 0, z);
 
-				if(!FreezeListener.frozenPlayers.contains(p.getName())) {
+				if(!(FreezeListener.frozenPlayers.contains(p.getName())) && !(FreezeListener.frozenPlayersTime.containsKey(p.getName()))) {
 					cancel();
 				}
 			}
