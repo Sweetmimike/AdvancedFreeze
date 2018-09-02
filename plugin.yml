@@ -4,3 +4,21 @@ name: AdvancedFreeze
 commands:
   freeze:
     description: Freeze the players
+    permission: af.freeze
+  unfreeze:
+    description: Unfreeze the players
+    permission: af.unfreeze
+    
+permissions:
+  af.*:
+    description: Gives you all the permissions
+    default: op
+    children:
+      af.freeze : true
+      af.unfreeze: true
+  af.freeze:
+    description: Allows you to freeze players
+    default: false
+  af.unfreeze:
+    description: Allows you to unfreeze players
+    default: false

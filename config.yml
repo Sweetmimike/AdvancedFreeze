@@ -1,0 +1,4 @@
+# Message sends to the player when he becomes frozen or unfrozen
+notification_message:
+  frozen: "You have been frozen"
+  unfrozen: "You have been unfrozen"
