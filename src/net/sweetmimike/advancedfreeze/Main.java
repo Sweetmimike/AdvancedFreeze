@@ -13,7 +13,7 @@ public class Main extends JavaPlugin {
 	public void onEnable() {
 		
 		Bukkit.getPluginManager().registerEvents(new FreezeListener(this), this);
-		
+		System.out.println("salut");
 		getCommand("freeze").setExecutor(new CommandFreeze(this));
 		getCommand("unfreeze").setExecutor(new CommandUnFreeze());
 		super.onEnable();
