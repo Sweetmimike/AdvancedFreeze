@@ -15,7 +15,7 @@ public class FreezeListener implements Listener {
 
 	Main main;
 	public static ArrayList<String> frozenPlayers = new ArrayList<>();
-	public static Map<String, Double> frozenPlayersTime = new HashMap<>();
+	public static Map<String, Long> frozenPlayersTime = new HashMap<>();
 	public int i = 0;
 
 	public FreezeListener(Main main) {
@@ -30,6 +30,14 @@ public class FreezeListener implements Listener {
 		if(frozenPlayers.contains(p.getName()) ) {
 			e.setCancelled(true);
 			p.sendMessage("AdvancedFreeze >> You are frozen, you can't move !");
+		} else if(frozenPlayersTime.containsKey(p.getName())) {
+			long timeLeft = frozenPlayersTime.get(p.getName()) - (System.currentTimeMillis() / 1000);
+			if(timeLeft > 0) {
+				e.setCancelled(true);
+				p.sendMessage("AdvancedFreeze >> You are frozen, you can't move !");
+			} 
 		}
+		
+		
 	}
 }
