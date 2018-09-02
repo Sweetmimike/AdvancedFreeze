@@ -21,16 +21,16 @@ public class CommandUnFreeze implements CommandExecutor {
 				if(target.equalsIgnoreCase(p.getName())) {
 					if(FreezeListener.frozenPlayers.contains(p.getName())) {
 						FreezeListener.frozenPlayers.remove(target);
-						sender.sendMessage("AdvancedFreeze >> " + p.getName() + " is unfrozen");
-						p.sendMessage("AdvancedFreeze >> You are unfrozen");
+						sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§a " + p.getName() + " is unfrozen");
+						p.sendMessage("§3§lAdvanced§b§lFreeze §7>>§a You are unfrozen");
 						return true;
 					}
-					sender.sendMessage("AdvancedFreeze >> You can't unfreeze this player");
+					sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§c You can't unfreeze this player");
 					
 					return true;
 				}
 			}
-			sender.sendMessage("AdvancedFreeze >> " + target + " is offline");
+			sender.sendMessage("§3Advanced§bFreeze §7>>§c " + target + " is offline");
 
 			return true;
 			} else {

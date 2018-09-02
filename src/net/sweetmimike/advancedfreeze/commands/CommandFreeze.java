@@ -34,21 +34,21 @@ public class CommandFreeze implements CommandExecutor {
 				for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 					if(target.equalsIgnoreCase(p.getName())) {
 						if(FreezeListener.frozenPlayers.contains(p.getName()) || FreezeListener.frozenPlayersTime.containsKey(p.getName())) {
-							sender.sendMessage("AdvancedFreeze >> " + p.getName() + " is already frozen");
+							sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§c " + p.getName() + " is already frozen");
 							return true;
 						}
 						if(!(p.hasPermission("af.bypass"))) {
 							FreezeListener.frozenPlayers.add(p.getName());
 							onFreeze(p);
 							p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 10, 1);
-							sender.sendMessage("AdvancedFreeze >> " + p.getName() + " has been frozen");
-							p.sendMessage("AdvancedFreeze >> You have been frozen");
+							sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§a " + p.getName() + " has been frozen");
+							p.sendMessage("§3§lAdvanced§b§lFreeze §7>>§a You have been frozen");
 						}
-						sender.sendMessage("AdvancedFreeze >> You can't freeze this player cause he has af.bypass");
+						sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§c You can't freeze this player cause he has af.bypass");
 						return true;
 					}
 				}
-				sender.sendMessage("AdvancedFreeze >> " + target + " is offline");
+				sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§c " + target + " is offline");
 
 				return true;
 			} else {
@@ -72,15 +72,15 @@ public class CommandFreeze implements CommandExecutor {
 				for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 					if(target.equalsIgnoreCase(p.getName())) {
 						if(FreezeListener.frozenPlayers.contains(p.getName()) || FreezeListener.frozenPlayersTime.containsKey(p.getName())) {
-							sender.sendMessage("AdvancedFreeze >> " + p.getName() + " is already frozen");
+							sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§c " + p.getName() + " is already frozen");
 							return true;
 						}
 						if(!(p.hasPermission("af.bypass"))) {
 							FreezeListener.frozenPlayersTime.put(p.getName(), (System.currentTimeMillis() / 1000) + time);
 							onFreeze(p);
 							p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 10, 1);
-							sender.sendMessage("AdvancedFreeze >> " + p.getName() + " has been frozen for " + time + "s");
-							p.sendMessage("AdvancedFreeze >> You have been frozen for " + time + "s");
+							sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§a " + p.getName() + " has been frozen for §2" + time + "§as");
+							p.sendMessage("§3§lAdvanced§b§lFreeze §7>>§a You have been frozen for §2" + time + "§as");
 
 							//au bout de 20 * time, remove
 							new BukkitRunnable() {
@@ -88,18 +88,18 @@ public class CommandFreeze implements CommandExecutor {
 								@Override
 								public void run() {
 									FreezeListener.frozenPlayersTime.remove(p.getName());
-									p.sendMessage("AdvancedFreeze >> You have been unfrozen");
+									p.sendMessage("§3§lAdvanced§b§lFreeze §7>>§a You have been unfrozen");
 
 								}
 							}.runTaskLater(main, 20 * time);
 						}
-						sender.sendMessage("AdvancedFreeze >> You can't freeze this player cause he has af.bypass");
+						sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§c You can't freeze this player cause he has af.bypass");
 						return true;
 
 					}
 
 				}
-				sender.sendMessage("AdvancedFreeze >> " + target + " is offline");
+				sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§c " + target + " is offline");
 				return true;
 
 			} else {
@@ -141,12 +141,12 @@ public class CommandFreeze implements CommandExecutor {
 	}
 
 	public static void onHelp(CommandSender sender) {
-		sender.sendMessage("******* AdvancedFreeze *******");
+		sender.sendMessage("******* §3§lAdvanced§b§lFreeze *******");
 		sender.sendMessage("");
 		sender.sendMessage("> /freeze <player> [time] - Freeze the player");
 		sender.sendMessage("> /unfreeze <player> - Unfreeze the player");
 		sender.sendMessage("");
-		sender.sendMessage("******* AdvancedFreeze *******");
+		sender.sendMessage("******* §3§lAdvanced§b§lFreeze *******");
 	}
 
 	public boolean isNumber(String str) {
