@@ -14,7 +14,7 @@ public class CommandUnFreeze implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
 		if(args.length == 1) {
-
+			if(sender.hasPermission("af.unfreeze")) {
 			String target = args[0];
 
 			for(Player p : Bukkit.getServer().getOnlinePlayers()) {
@@ -33,9 +33,14 @@ public class CommandUnFreeze implements CommandExecutor {
 			sender.sendMessage("AdvancedFreeze >> " + target + " is offline");
 
 			return true;
+			} else {
+				sender.sendMessage("§4You do not have permission to do that");
+				return true;
+			}
+		} else {
+			CommandFreeze.onHelp(sender);
+			return true;
 		}
-
-		return false;
 
 	}
 

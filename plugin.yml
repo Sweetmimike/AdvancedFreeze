@@ -16,9 +16,12 @@ permissions:
     children:
       af.freeze : true
       af.unfreeze: true
+      af.bypass: true
   af.freeze:
     description: Allows you to freeze players
     default: false
   af.unfreeze:
     description: Allows you to unfreeze players
     default: false
+  af.bypass:
+    description: Allows to never be frozen
