@@ -1,6 +1,7 @@
 main: net.sweetmimike.advancedfreeze.Main
 version: 1.0
 name: AdvancedFreeze
+author: Sweetmimike
 commands:
   freeze:
     description: Freeze the players
@@ -17,6 +18,8 @@ permissions:
       af.freeze : true
       af.unfreeze: true
       af.bypass: true
+      af.reload: true
+      af.help: true
   af.freeze:
     description: Allows you to freeze players
     default: false
@@ -24,4 +27,10 @@ permissions:
     description: Allows you to unfreeze players
     default: false
   af.bypass:
-    description: Allows to never be frozen
+    description: Allows you to never be frozen
+    default: false
+  af.reload:
+    description: Allows you to reload the config file
+    default: op
+  af.help:
+    description: Allows you to show the help

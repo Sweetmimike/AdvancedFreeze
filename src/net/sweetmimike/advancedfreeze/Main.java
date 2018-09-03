@@ -8,14 +8,17 @@ import net.sweetmimike.advancedfreeze.commands.CommandUnFreeze;
 import net.sweetmimike.advancedfreeze.events.FreezeListener;
 
 public class Main extends JavaPlugin {
+	
+	CommandFreeze freeze;
 
 	@Override
 	public void onEnable() {
 		
 		Bukkit.getPluginManager().registerEvents(new FreezeListener(this), this);
+		saveDefaultConfig();
 		System.out.println("salut");
 		getCommand("freeze").setExecutor(new CommandFreeze(this));
-		getCommand("unfreeze").setExecutor(new CommandUnFreeze());
+		getCommand("unfreeze").setExecutor(new CommandUnFreeze(this, new CommandFreeze(this)));
 		super.onEnable();
 	}
 	

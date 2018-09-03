@@ -8,7 +8,6 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -18,8 +17,6 @@ import net.sweetmimike.advancedfreeze.events.FreezeListener;
 public class CommandFreeze implements CommandExecutor {
 
 	Main main;
-	
-	FileConfiguration config = main.getConfig();
 
 	public CommandFreeze(Main main) {
 		this.main = main;
@@ -31,6 +28,28 @@ public class CommandFreeze implements CommandExecutor {
 
 
 		if(args.length == 1) {
+
+			if(args[0].equalsIgnoreCase("help")) {
+				if(sender.hasPermission("af.help")) {
+					onHelp(sender);
+					return true;
+				} else {
+					sender.sendMessage("§4You do not have permission to do that");
+					return true;
+				}
+			}
+
+			if(args[0].equalsIgnoreCase("reload")) {
+				if(sender.hasPermission("af.reload")) {
+					main.reloadConfig();
+					sender.sendMessage("§3§lAdvanced§b§lFreeze §7>> §aConfig file reloaded");
+					return true;
+				} else {
+					sender.sendMessage("§4You do not have permission to do that");
+					return true;
+				}
+			}
+
 			if(sender.hasPermission("af.freeze")) {
 				String target = args[0];
 
@@ -46,8 +65,9 @@ public class CommandFreeze implements CommandExecutor {
 								onFreeze(p);
 							if(isSoundEnable())
 								p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 10, 1);
-							sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§e " + p.getName() + " §chas been frozen");
-							p.sendMessage("§3§lAdvanced§b§lFreeze §7>>§a You have been frozen");
+							sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§e " + p.getName() + " §ahas been frozen");
+							p.sendMessage("§3§lAdvanced§b§lFreeze §7>> " + main.getConfig().getString("notification_message.frozen").replace("&", "§"));
+							return true;
 						}
 						sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§c You can't freeze this player cause he has af.bypass");
 						return true;
@@ -96,9 +116,14 @@ public class CommandFreeze implements CommandExecutor {
 								public void run() {
 									FreezeListener.frozenPlayersTime.remove(p.getName());
 									p.sendMessage("§3§lAdvanced§b§lFreeze §7>>§a You have been unfrozen");
+									
+									if(!(FreezeListener.frozenPlayersTime.containsKey(p.getName()))) {
+										cancel();
+									}
 
 								}
 							}.runTaskLater(main, 20 * time);
+							return true;
 						}
 						sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§c You can't freeze this player cause he has af.bypass");
 						return true;
@@ -135,9 +160,9 @@ public class CommandFreeze implements CommandExecutor {
 				angle += 0.1;
 				x = radius * Math.cos(angle);
 				z = radius * Math.sin(angle);
-				loc.add(x, 0, z);
+				loc.add(x, 1, z);
 				world.spawnParticle(Particle.SNOWBALL, loc, 2);
-				loc.subtract(x, 0, z);
+				loc.subtract(x, 1, z);
 
 				if(!(FreezeListener.frozenPlayers.contains(p.getName())) && !(FreezeListener.frozenPlayersTime.containsKey(p.getName()))) {
 					cancel();
@@ -147,12 +172,13 @@ public class CommandFreeze implements CommandExecutor {
 	}
 
 	public static void onHelp(CommandSender sender) {
-		sender.sendMessage("******* §3§lAdvanced§b§lFreeze *******");
+		sender.sendMessage("§b§l******* §3§lAdvanced§b§lFreeze *******");
 		sender.sendMessage("");
-		sender.sendMessage("> /freeze <player> [time] - Freeze the player");
-		sender.sendMessage("> /unfreeze <player> - Unfreeze the player");
+		sender.sendMessage("§3> §b/freeze <player> [time] §7- §bFreezes the player");
+		sender.sendMessage("§3> §b/unfreeze <player> §7- §bUnfreezes the player");
+		sender.sendMessage("§3> §b/freeze help §7- §bShows the help");
 		sender.sendMessage("");
-		sender.sendMessage("******* §3§lAdvanced§b§lFreeze *******");
+		sender.sendMessage("§b§l******* §3§lAdvanced§b§lFreeze *******");
 	}
 
 	public boolean isNumber(String str) {
@@ -163,12 +189,16 @@ public class CommandFreeze implements CommandExecutor {
 		}
 		return false;
 	}
-	
+
 	public boolean isParticleEnable() {
-		return config.getBoolean("particle_enable");
+		return main.getConfig().getBoolean("particle_enable");
+	}
+
+	public boolean isSoundEnable() {
+		return main.getConfig().getBoolean("sound_enable");
 	}
 	
-	public boolean isSoundEnable() {
-		return config.getBoolean("sound_enable");
+	public CommandFreeze getInstance() {
+		return this;
 	}
 }
