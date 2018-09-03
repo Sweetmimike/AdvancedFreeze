@@ -8,6 +8,7 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -17,6 +18,8 @@ import net.sweetmimike.advancedfreeze.events.FreezeListener;
 public class CommandFreeze implements CommandExecutor {
 
 	Main main;
+	
+	FileConfiguration config = main.getConfig();
 
 	public CommandFreeze(Main main) {
 		this.main = main;
@@ -39,8 +42,10 @@ public class CommandFreeze implements CommandExecutor {
 						}
 						if(!(p.hasPermission("af.bypass"))) {
 							FreezeListener.frozenPlayers.add(p.getName());
-							onFreeze(p);
-							p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 10, 1);
+							if(isParticleEnable())
+								onFreeze(p);
+							if(isSoundEnable())
+								p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 10, 1);
 							sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§e " + p.getName() + " §chas been frozen");
 							p.sendMessage("§3§lAdvanced§b§lFreeze §7>>§a You have been frozen");
 						}
@@ -77,8 +82,10 @@ public class CommandFreeze implements CommandExecutor {
 						}
 						if(!(p.hasPermission("af.bypass"))) {
 							FreezeListener.frozenPlayersTime.put(p.getName(), (System.currentTimeMillis() / 1000) + time);
-							onFreeze(p);
-							p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 10, 1);
+							if(isParticleEnable())
+								onFreeze(p);
+							if(isSoundEnable())
+								p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 10, 1);
 							sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§e " + p.getName() + " §ahas been frozen for §2" + time + "§as");
 							p.sendMessage("§3§lAdvanced§b§lFreeze §7>>§a You have been frozen for §2" + time + "§as");
 
@@ -126,7 +133,6 @@ public class CommandFreeze implements CommandExecutor {
 			@Override
 			public void run() {
 				angle += 0.1;
-				System.out.println(angle);
 				x = radius * Math.cos(angle);
 				z = radius * Math.sin(angle);
 				loc.add(x, 0, z);
@@ -156,5 +162,13 @@ public class CommandFreeze implements CommandExecutor {
 		} catch(NumberFormatException e) {
 		}
 		return false;
+	}
+	
+	public boolean isParticleEnable() {
+		return config.getBoolean("particle_enable");
+	}
+	
+	public boolean isSoundEnable() {
+		return config.getBoolean("sound_enable");
 	}
 }
