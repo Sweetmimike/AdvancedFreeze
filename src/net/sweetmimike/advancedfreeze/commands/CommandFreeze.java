@@ -116,7 +116,7 @@ public class CommandFreeze implements CommandExecutor {
 								public void run() {
 									FreezeListener.frozenPlayersTime.remove(p.getName());
 									p.sendMessage("§3§lAdvanced§b§lFreeze §7>>§a You have been unfrozen");
-									
+
 									if(!(FreezeListener.frozenPlayersTime.containsKey(p.getName()))) {
 										cancel();
 									}
@@ -154,7 +154,8 @@ public class CommandFreeze implements CommandExecutor {
 		new BukkitRunnable() {
 			double angle = 2 * Math.PI / 16; // ou = math.toRadian(90);
 			double radius = 1.5;
-			double x,z;
+			double x;
+			double z;
 			@Override
 			public void run() {
 				angle += 0.1;
@@ -185,9 +186,9 @@ public class CommandFreeze implements CommandExecutor {
 		try {
 			Long.parseLong(str);
 			return true;
-		} catch(NumberFormatException e) {
+		} catch(NumberFormatException e) { 
+			return false;
 		}
-		return false;
 	}
 
 	public boolean isParticleEnable() {
@@ -197,7 +198,7 @@ public class CommandFreeze implements CommandExecutor {
 	public boolean isSoundEnable() {
 		return main.getConfig().getBoolean("sound_enable");
 	}
-	
+
 	public CommandFreeze getInstance() {
 		return this;
 	}
