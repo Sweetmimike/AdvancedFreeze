@@ -17,7 +17,7 @@ import net.sweetmimike.advancedfreeze.events.FreezeListener;
 public class CommandFreeze implements CommandExecutor {
 
 	Main main;
-
+	
 	public CommandFreeze(Main main) {
 		this.main = main;
 	}

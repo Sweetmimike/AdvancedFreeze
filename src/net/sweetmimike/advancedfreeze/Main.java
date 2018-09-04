@@ -16,7 +16,6 @@ public class Main extends JavaPlugin {
 		
 		Bukkit.getPluginManager().registerEvents(new FreezeListener(this), this);
 		saveDefaultConfig();
-		System.out.println("salut");
 		getCommand("freeze").setExecutor(new CommandFreeze(this));
 		getCommand("unfreeze").setExecutor(new CommandUnFreeze(this, new CommandFreeze(this)));
 		super.onEnable();
