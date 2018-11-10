@@ -3,7 +3,6 @@ package net.sweetmimike.advancedfreeze.commands;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,7 +16,7 @@ import net.sweetmimike.advancedfreeze.events.FreezeListener;
 public class CommandFreeze implements CommandExecutor {
 
 	Main main;
-	
+
 	public CommandFreeze(Main main) {
 		this.main = main;
 	}
@@ -64,7 +63,7 @@ public class CommandFreeze implements CommandExecutor {
 							if(isParticleEnable())
 								onFreeze(p);
 							if(isSoundEnable())
-								p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 10, 1);
+								p.playSound(p.getLocation(), getSound(), 10, 1);
 							sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§e " + p.getName() + " §ahas been frozen");
 							p.sendMessage("§3§lAdvanced§b§lFreeze §7>> " + main.getConfig().getString("notification_message.frozen").replace("&", "§"));
 							return true;
@@ -105,7 +104,7 @@ public class CommandFreeze implements CommandExecutor {
 							if(isParticleEnable())
 								onFreeze(p);
 							if(isSoundEnable())
-								p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 10, 1);
+								p.playSound(p.getLocation(), getSound(), 10, 1);
 							sender.sendMessage("§3§lAdvanced§b§lFreeze §7>>§e " + p.getName() + " §ahas been frozen for §2" + time + "§as");
 							p.sendMessage("§3§lAdvanced§b§lFreeze §7>>§a You have been frozen for §2" + time + "§as");
 
@@ -201,5 +200,14 @@ public class CommandFreeze implements CommandExecutor {
 
 	public CommandFreeze getInstance() {
 		return this;
+	}
+
+	public String getSound() {
+		if(Bukkit.getServer().getBukkitVersion().contains("1.13")) {
+			return "Sound.BLOCK_NOTE_BLOCK_PLING";
+		}
+		else {
+			return "Sound.BLOCK_NOTE_PLING";
+		}
 	}
 }
